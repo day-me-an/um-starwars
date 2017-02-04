@@ -6,21 +6,17 @@ type State = {status: 'loading'}
 export class PageStore {
   state: State = {status: 'loading'}
 
-  load(url: string) {
+  async load(url: string) {
     this.state = {status: 'loading'}
-    return fetch(url)
-      .then(resp => {
-        if (resp.ok) {
-          return resp.json()
-        } else {
-          return Promise.reject(resp.statusText)
-        }
-      })
-      .then(json => {
-        this.state = {status: 'done', json}
-      })
-      .catch(reason => {
-        this.state = {status: 'error', reason, }
-      })
+    try {
+      const resp = await fetch(url)
+      if (!resp.ok) {
+        throw resp.statusText
+      }
+      const json = await resp.json()
+      this.state = {status: 'done', json}
+    } catch (reason) {
+      this.state = {status: 'error', reason}
+    }
   }
 }
