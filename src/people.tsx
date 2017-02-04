@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {RouteComponentProps} from 'react-router'
 
+import RaisedButton from 'material-ui/RaisedButton'
+
 interface PersonListProps {
 
 }
@@ -8,7 +10,9 @@ interface PersonListProps {
 export class PersonList extends React.Component<PersonListProps, {}> {
   render() {
     return (
-      <h1>people list</h1>
+      <section>
+        <RaisedButton label="Load More" />
+      </section>
     )
   }
 }
