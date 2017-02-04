@@ -1,0 +1,47 @@
+{
+  "name": "um-starwars",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "mocha --opts mocha.opts",
+    "test-watch": "mocha --opts mocha.opts --watch",
+    "cover": "nyc npm test",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mobx": "^3.0.2",
+    "mobx-react": "^4.1.0",
+    "react": "^15.4.2",
+    "react-router": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/fetch-mock": "^5.8.0",
+    "@types/mocha": "^2.2.39",
+    "@types/whatwg-fetch": "0.0.33",
+    "chai": "^3.4.1",
+    "fetch-mock": "^5.8.1",
+    "mocha": "^2.2.5",
+    "nyc": "^10.1.2",
+    "ts-node": "^2.0.0",
+    "typescript": "^2.1.5"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "exclude": [
+      "**/*.spec.{ts,tsx}"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "all": true
+  }
+}
