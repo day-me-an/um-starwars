@@ -1,10 +1,12 @@
+import {observable} from 'mobx'
+
 // Approach inspired from an OCaml talk by a guy from Jane Street Capital.
 type State = {status: 'loading'}
            | {status: 'done', json: any}
            | {status: 'error', reason: string}
 
 export class PageStore {
-  state: State = {status: 'loading'}
+  @observable state: State = {status: 'loading'}
 
   async load(url: string) {
     this.state = {status: 'loading'}
