@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import * as fetchMock from 'fetch-mock'
 import {autorun} from 'mobx'
 
-import {PageStore} from './store'
+import {PageStore, FavouritesStore} from './store'
 
 describe('PageStore', function() {
   afterEach(function() {
@@ -52,5 +52,28 @@ describe('PageStore', function() {
       }
       call++
     })
+  })
+})
+
+
+describe('FavouritesStore', function() {
+  it(`initial state is empty`, function() {
+    const store = new FavouritesStore()
+    expect(store.favourites).to.deep.equal({})
+  })
+
+  it(`toggle to add an item`, function() {
+    const store = new FavouritesStore()
+    store.toggle('people', '1', 'Luke')
+    expect(store.favourites).to.deep.equal({
+      'people': {'1': {title: 'Luke'}}
+    })
+  })
+
+  it(`toggling an existing item removes it`, function() {
+    const store = new FavouritesStore()
+    store.toggle('people', '1', 'Luke')
+    store.toggle('people', '1', 'Luke')
+    expect(store.favourites).to.deep.equal({'people': {}})    
   })
 })
