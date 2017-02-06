@@ -7,8 +7,8 @@ import {PersonList, Person} from './people'
 export default (
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={PersonList} />
-      <Route path="person/:personId" component={Person}></Route>
+      <Route path="people/" component={PersonList}></Route>
+      <Route path="people/:personId/" component={Person}></Route>
     </Route>
   </Router>
 )
