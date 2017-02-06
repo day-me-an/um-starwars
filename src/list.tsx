@@ -19,6 +19,12 @@ interface ResourceListState {
   error: string
 }
 
+interface Paginatable {
+  count: number
+  next: string
+  results: any[]
+}
+
 const resourceListStyles = {
   loadBtn: {
     display: 'block',
@@ -26,12 +32,6 @@ const resourceListStyles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   }
-}
-
-interface Paginatable {
-  count: number
-  next: string
-  results: any[]
 }
 
 export class ResourceList extends React.Component<RouteComponentProps<{}, ResourceListRoute>, ResourceListState> {
@@ -75,7 +75,6 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
   }
 
   openItem(url: string) {
-    
     // Matches the entity id at the end of the URL. http://swapi.co/api/people/7/ => 7
     const match = url.match(/\/([0-9]+)\/$/)
     if (match) {
@@ -91,12 +90,16 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
       <section>
         <AppBar title={this.props.routeParams.resourceName} titleStyle={{textTransform: 'capitalize'}} />
         <List>
-          {this.state.items.map(person => <PersonItem item={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
+          {this.state.items.map(person => <ResourceItem item={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
         </List>
         {this.state.nextPage ? <LoadBtn isLoading={this.state.status == 'incrementing'} loadMore={this.loadMore.bind(this)} /> : null}
       </section>
     )
   }
+}
+
+function ResourceItem(props: {item: any, onClick: () => void}) {
+  return <ListItem primaryText={getResourceTitle(props.item)} onClick={props.onClick} />
 }
 
 function LoadBtn(props: {isLoading: boolean, loadMore: () => void}) {
@@ -105,8 +108,4 @@ function LoadBtn(props: {isLoading: boolean, loadMore: () => void}) {
   } else {
     return <RaisedButton style={resourceListStyles.loadBtn} label="Load More" onClick={props.loadMore} />
   }
-}
-
-function PersonItem(props: {item: any, onClick: () => void}) {
-  return <ListItem primaryText={getResourceTitle(props.item)} onClick={props.onClick} />
 }
