@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {RouteComponentProps, hashHistory} from 'react-router'
 
+import {getResourceTitle} from './util'
+
 import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -24,10 +26,6 @@ const resourceListStyles = {
     marginLeft: 'auto',
     marginRight: 'auto',
   }
-}
-
-function PersonItem(props: {person: any, onClick: () => void}) {
-  return <ListItem primaryText={props.person.name} onClick={props.onClick} />
 }
 
 interface Paginatable {
@@ -93,7 +91,7 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
       <section>
         <AppBar title={this.props.routeParams.resourceName} titleStyle={{textTransform: 'capitalize'}} />
         <List>
-          {this.state.items.map(person => <PersonItem person={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
+          {this.state.items.map(person => <PersonItem item={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
         </List>
         {this.state.nextPage ? <LoadBtn isLoading={this.state.status == 'incrementing'} loadMore={this.loadMore.bind(this)} /> : null}
       </section>
@@ -107,4 +105,8 @@ function LoadBtn(props: {isLoading: boolean, loadMore: () => void}) {
   } else {
     return <RaisedButton style={resourceListStyles.loadBtn} label="Load More" onClick={props.loadMore} />
   }
+}
+
+function PersonItem(props: {item: any, onClick: () => void}) {
+  return <ListItem primaryText={getResourceTitle(props.item)} onClick={props.onClick} />
 }

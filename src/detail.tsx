@@ -2,6 +2,8 @@ import * as React from 'react'
 import {RouteComponentProps, hashHistory} from 'react-router'
 import {observer} from 'mobx-react'
 
+import {getResourceTitle} from './util'
+
 import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
 import CircularProgress from 'material-ui/CircularProgress'
@@ -60,7 +62,7 @@ export class ResourceDetail extends React.Component<ResourceDetailProps, Resourc
     const item = this.state.item
     return (
       <section>
-        <AppBar title={item ? getTitle(item) : null} />
+        <AppBar title={item ? getResourceTitle(item) : null} />
         {this.state.status == 'done' ? <ResourceViewer resourceName={this.props.routeParams.resourceName} item={item} /> : null}
       </section>
     )
@@ -187,7 +189,7 @@ class LinkedResourceChip extends React.Component<LinkedResourceProps, LinkedReso
       }
       const record = await resp.json()
       if (this._mounted)
-        this.setState({title: getTitle(record)})
+        this.setState({title: getResourceTitle(record)})
     } catch (reason) {
       if (this._mounted)      
         this.setState({title: 'Unknown'})
@@ -204,17 +206,4 @@ class LinkedResourceChip extends React.Component<LinkedResourceProps, LinkedReso
       <Chip style={{margin: 5}} onTouchTap={this.navigate.bind(this)}>{this.state.title}</Chip>
     )
   }
-}
-
-/**
- * Attempts to return a field that can act as a title.
- * Most SWAPI entities have a `name`, but one uses `title`. 
- */
-function getTitle(record: any): string {
-  if (record.name)
-    return record.name
-  else if (record.title)
-    return record.title
-  else
-    return "Unknown"
 }
