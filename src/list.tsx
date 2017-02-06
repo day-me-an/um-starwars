@@ -77,6 +77,7 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
   }
 
   openItem(url: string) {
+    
     // Matches the entity id at the end of the URL. http://swapi.co/api/people/7/ => 7
     const match = url.match(/\/([0-9]+)\/$/)
     if (match) {
