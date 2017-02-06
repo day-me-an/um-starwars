@@ -4,7 +4,8 @@ import {observer} from 'mobx-react'
 
 import {getResourceTitle} from './util'
 
-import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import FontIcon from 'material-ui/FontIcon'
 import {List, ListItem} from 'material-ui/List'
 import CircularProgress from 'material-ui/CircularProgress'
 import AppBar from 'material-ui/AppBar'
@@ -63,6 +64,12 @@ export class ResourceDetail extends React.Component<ResourceDetailProps, Resourc
     return (
       <section>
         <AppBar title={item ? getResourceTitle(item) : null} />
+        <FlatButton
+          href={`#/${this.props.routeParams.resourceName}/`}
+          label={`View all ${this.props.routeParams.resourceName}`}
+          primary
+          icon={<FontIcon className="fa fa-arrow-left" />}
+        />
         {this.state.status == 'done' ? <ResourceViewer resourceName={this.props.routeParams.resourceName} item={item} /> : null}
       </section>
     )
