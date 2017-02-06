@@ -9,6 +9,10 @@ describe('Smart Resource Viewer', function() {
       expect(prettyName('hello_world')).to.equal('hello world')
     })
 
+    it(`converts multiple underscores to spaces`, function() {
+      expect(prettyName('hello_there_world')).to.equal('hello there world')
+    })
+
     it(`returns the whole word if there are no underscores`, function() {
       expect(prettyName('hello')).to.equal('hello')
     })

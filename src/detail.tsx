@@ -98,7 +98,7 @@ export function isBasicTextProperty(key: string, value) {
 }
 
 export function prettyName(key: string) {
-  return key.replace('_', ' ')
+  return key.replace(/_/g, ' ')
 }
 
 export function isRelevant(key, value) {
