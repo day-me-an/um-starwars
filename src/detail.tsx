@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {RouteComponentProps, hashHistory} from 'react-router'
-import {observer} from 'mobx-react'
 
 import {getResourceTitle} from './util'
+import {FavouriteToggler} from './favourites'
 
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
@@ -61,9 +61,19 @@ export class ResourceDetail extends React.Component<ResourceDetailProps, Resourc
 
   render() {
     const item = this.state.item
+    const title = item ? getResourceTitle(item) : null
     return (
       <section>
-        <AppBar title={item ? getResourceTitle(item) : null} />
+        <AppBar
+          title={title}
+          iconElementRight={
+            <FavouriteToggler
+              resourceType={this.props.routeParams.resourceName}
+              id={this.props.routeParams.id}
+              title={title}
+            />
+          }
+        />
         <FlatButton
           href={`#/${this.props.routeParams.resourceName}/`}
           label={`View all ${this.props.routeParams.resourceName}`}
@@ -136,7 +146,7 @@ function SmartResourceViewer(props: {item: any}) {
   const fields = relevantFields(props.item)
   return (
     <List>
-      {fields.text.map(([field, value]) => <ListItem primaryText={field} secondaryText={value} key={field} />)}
+      {fields.text.map(([field, value]) => <ListItem primaryText={<span style={{textTransform: 'capitalize'}}>{field}</span>} secondaryText={value} key={field} />)}
       {fields.linked.map(([field, urls]) => <LinkedResourcesField name={field} urls={urls} key={field} />)}
     </List>
   )
@@ -145,7 +155,7 @@ function SmartResourceViewer(props: {item: any}) {
 function LinkedResourcesField(props: {name: string, urls: string[]}) {
   return (
     <ListItem
-      primaryText={props.name}
+      primaryText={<span style={{textTransform: 'capitalize'}}>{props.name}</span>}
       secondaryText={<span>{[].concat(props.urls).map(url => <LinkedResourceChip url={url} key={url} />)}</span>}
     />
   )
