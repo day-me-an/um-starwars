@@ -2,7 +2,8 @@ import * as React from 'react'
 import {Router, Route, hashHistory, IndexRoute} from 'react-router'
 
 import App from './app'
-import {ResourceList, Person} from './people'
+import {ResourceList} from './list'
+import {Person} from './people'
 
 export default (
   <Router history={hashHistory}>
