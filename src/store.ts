@@ -1,4 +1,4 @@
-import {observable} from 'mobx'
+import {observable, autorun, ObservableMap} from 'mobx'
 
 // Approach inspired from an OCaml talk by a guy from Jane Street Capital.
 type State = {status: 'loading'}
@@ -23,30 +23,31 @@ export class PageStore {
   }
 }
 
-interface FavouriteStore {
-  [resourceType: string]: {
-    [id: string]: FavouriteItem
-  }
-}
+export type ResourceFavourites = ObservableMap<FavouriteItem>
+type FavouriteStore = ObservableMap<ResourceFavourites>
 
 interface FavouriteItem {
   title: string
 }
 
 export class FavouritesStore {
-  @observable favourites: FavouriteStore = {}
+  @observable favourites: FavouriteStore = observable.map<ResourceFavourites>()
 
   toggle(resourceType: string, id: string, title: string) {
     // Add an object for this resource type if it doesn't exist.
-    if (!this.favourites.hasOwnProperty(resourceType)) {
-      this.favourites[resourceType] = {}
+    if (!this.favourites.has(resourceType)) {
+      this.favourites.set(resourceType, observable.map<FavouriteItem>())
     }
-    const resources = this.favourites[resourceType]
+    const resources = this.favourites.get(resourceType)
     // Add or remove it.
-    if (resources.hasOwnProperty(id)) {
-      delete resources[id]
+    if (resources.has(id)) {
+      resources.delete(id)
     } else {
-      resources[id] = {title}
+      resources.set(id, {title})
     }
   }
+
+  // isFavourited(resourceType: string, id: string) {
+  //   return this.favourites.has(resourceType) && this.favourites[resourceType].has(id)
+  // }
 }

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import * as fetchMock from 'fetch-mock'
-import {autorun} from 'mobx'
+import {autorun, toJS} from 'mobx'
 
 import {PageStore, FavouritesStore} from './store'
 
@@ -55,17 +55,16 @@ describe('PageStore', function() {
   })
 })
 
-
 describe('FavouritesStore', function() {
   it(`initial state is empty`, function() {
     const store = new FavouritesStore()
-    expect(store.favourites).to.deep.equal({})
+    expect(toJS(store.favourites)).to.deep.equal({})
   })
 
   it(`toggle to add an item`, function() {
     const store = new FavouritesStore()
     store.toggle('people', '1', 'Luke')
-    expect(store.favourites).to.deep.equal({
+    expect(toJS(store.favourites)).to.deep.equal({
       'people': {'1': {title: 'Luke'}}
     })
   })
@@ -74,6 +73,6 @@ describe('FavouritesStore', function() {
     const store = new FavouritesStore()
     store.toggle('people', '1', 'Luke')
     store.toggle('people', '1', 'Luke')
-    expect(store.favourites).to.deep.equal({'people': {}})    
+    expect(toJS(store.favourites)).to.deep.equal({'people': {}})    
   })
 })
