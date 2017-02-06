@@ -11,18 +11,18 @@ import Chip from 'material-ui/Chip'
 
 
 
-interface PersonListProps {
-
+interface ResourceListRoute {
+  resourceName: string
 }
 
-interface PersonListState {
+interface ResourceListState {
   status: 'initial-load' | 'done' | 'incrementing' | 'error'
   nextPage: number
   items: any[]
   error: string
 }
 
-const personListStyles = {
+const resourceListStyles = {
   loadBtn: {
     display: 'block',
     width: '10em',
@@ -41,7 +41,7 @@ interface Paginatable {
   results: any[]
 }
 
-export class PersonList extends React.Component<PersonListProps, PersonListState> {
+export class ResourceList extends React.Component<RouteComponentProps<{}, ResourceListRoute>, ResourceListState> {
   constructor(props) {
     super(props)
     // Initial state.
@@ -56,7 +56,7 @@ export class PersonList extends React.Component<PersonListProps, PersonListState
 
   async load() {
     try {
-      const resp = await fetch(`http://swapi.co/api/people/?page=${this.state.nextPage}`)
+      const resp = await fetch(`http://swapi.co/api/${this.props.routeParams.resourceName}/?page=${this.state.nextPage}`)
       if (!resp.ok) {
         throw resp.statusText
       }
@@ -85,15 +85,17 @@ export class PersonList extends React.Component<PersonListProps, PersonListState
     // Matches the entity id at the end of the URL. http://swapi.co/api/people/7/ => 7
     const match = url.match(/\/([0-9]+)\/$/)
     if (match) {
-      const id = match[1]
-      hashHistory.push(`${hashHistory.getCurrentLocation().pathname}${id}/`)
+      const [_, id] = match
+      hashHistory.push(`${this.props.routeParams.resourceName}/${id}/`)
+    } else {
+      throw `Couldn't open ${url}`
     }
   }
 
   render() {
     return (
       <section>
-        <AppBar title="People" />
+        <AppBar title={this.props.routeParams.resourceName} titleStyle={{textTransform: 'capitalize'}} />
         <List>
           {this.state.items.map(person => <PersonItem person={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
         </List>
@@ -107,7 +109,7 @@ function LoadBtn(props: {isLoading: boolean, loadMore: () => void}) {
   if (props.isLoading) {
     return <CircularProgress style={{display: 'block', marginLeft: 'auto', marginRight: 'auto'}} />
   } else {
-    return <RaisedButton style={personListStyles.loadBtn} label="Load More" onClick={props.loadMore} />
+    return <RaisedButton style={resourceListStyles.loadBtn} label="Load More" onClick={props.loadMore} />
   }
 }
 
