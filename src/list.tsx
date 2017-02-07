@@ -85,17 +85,6 @@ export class ResourceList extends React.Component<ResourceListProps, ResourceLis
     this.load(this.props.routeParams.resourceName)
   }
 
-  openItem(url: string) {
-    // Matches the entity id at the end of the URL. http://swapi.co/api/people/7/ => 7
-    const match = url.match(/\/([0-9]+)\/$/)
-    if (match) {
-      const [_, id] = match
-      hashHistory.push(`${this.props.routeParams.resourceName}/${id}/`)
-    } else {
-      throw `Couldn't open ${url}`
-    }
-  }
-
   render() {
     return (
       <section>
@@ -105,7 +94,7 @@ export class ResourceList extends React.Component<ResourceListProps, ResourceLis
           iconElementLeft={<MainNav />}
         />
         <List>
-          {this.state.items.map(person => <ResourceItem item={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
+          {this.state.items.map(item => <ListItem primaryText={getResourceTitle(item)} href={getItemUrl(item.url)} key={item.url} />)}
         </List>
         {this.state.nextPage ? <LoadBtn isLoading={this.state.status == 'incrementing'} loadMore={this.loadMore.bind(this)} /> : null}
       </section>
@@ -113,8 +102,11 @@ export class ResourceList extends React.Component<ResourceListProps, ResourceLis
   }
 }
 
-function ResourceItem(props: {item: any, onClick: () => void}) {
-  return <ListItem primaryText={getResourceTitle(props.item)} onClick={props.onClick} />
+function getItemUrl(url) {
+    // Matches the entity id at the end of the URL. http://swapi.co/api/people/7/ => 7
+    const match = url.match(/\/([a-z]+)\/([0-9]+)\/$/)
+    const [_, resourceName, id] = match
+    return `#/${resourceName}/${id}/`
 }
 
 function LoadBtn(props: {isLoading: boolean, loadMore: () => void}) {
