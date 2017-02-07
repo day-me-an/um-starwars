@@ -6,7 +6,7 @@
     "test": "mocha --opts mocha.opts",
     "test-watch": "mocha --opts mocha.opts --watch",
     "cover": "nyc npm test",
-    "dev": "node devserver.js"
+    "start": "node devserver.js"
   },
   "author": "",
   "license": "ISC",
@@ -31,7 +31,6 @@
     "awesome-typescript-loader": "3.0.0-beta.17",
     "chai": "^3.4.1",
     "copy-webpack-plugin": "^4.0.1",
-    "fetch-mock": "^5.8.1",
     "mocha": "^2.2.5",
     "nyc": "^10.1.2",
     "ts-node": "^2.0.0",
