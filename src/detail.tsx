@@ -215,7 +215,7 @@ class LinkedResourceChip extends React.Component<LinkedResourceProps, LinkedReso
     }
   }
 
-  navigate(e) {
+  navigate() {
     hashHistory.push(`/${this.resourceName}/${this.id}/`)
     window.scrollTo(0, 0)
   }
