@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 
 import {FavouritesStore, ResourceFavourites} from './store'
+import {MainNav} from './nav'
 
 // TODO: consider a way of injecting the store into components to make testing components cleaner.
 const store = new FavouritesStore()
@@ -38,7 +39,7 @@ export class FavouritesList extends React.Component<{}, {}> {
 
     return (
       <section>
-        <AppBar title="Favourites" />
+        <AppBar title="Favourites" iconElementLeft={<MainNav />} />
         <List>{content}</List>
       </section>
     )

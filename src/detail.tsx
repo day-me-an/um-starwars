@@ -3,6 +3,7 @@ import {RouteComponentProps, hashHistory} from 'react-router'
 
 import {getResourceTitle} from './util'
 import {FavouriteToggler} from './favourites'
+import {MainNav} from './nav'
 
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
@@ -66,6 +67,7 @@ export class ResourceDetail extends React.Component<ResourceDetailProps, Resourc
       <section>
         <AppBar
           title={title}
+          iconElementLeft={<MainNav />}
           iconElementRight={
             <FavouriteToggler
               resourceType={this.props.routeParams.resourceName}

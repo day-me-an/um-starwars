@@ -2,6 +2,7 @@ import * as React from 'react'
 import {RouteComponentProps, hashHistory} from 'react-router'
 
 import {getResourceTitle} from './util'
+import {MainNav} from './nav'
 
 import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
@@ -19,6 +20,8 @@ interface ResourceListState {
   error: string
 }
 
+type ResourceListProps = RouteComponentProps<{}, ResourceListRoute>
+
 interface Paginatable {
   count: number
   next: string
@@ -34,11 +37,16 @@ const resourceListStyles = {
   }
 }
 
-export class ResourceList extends React.Component<RouteComponentProps<{}, ResourceListRoute>, ResourceListState> {
-  constructor(props) {
+export class ResourceList extends React.Component<ResourceListProps, ResourceListState> {
+  constructor(props: ResourceListProps) {
     super(props)
     // Initial state.
-    this.state = {
+    this.state = ResourceList.initialState()
+    this.load(props.routeParams.resourceName)
+  }
+
+  static initialState(): ResourceListState {
+    return {
       status: 'initial-load',
       // Yes, pages do *start* at 1 and not 0 on SWAPI.
       nextPage: 1,
@@ -47,9 +55,16 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
     }
   }
 
-  async load() {
+  componentWillReceiveProps(nextProps: ResourceListProps) {
+    if (nextProps.routeParams.resourceName !== this.props.routeParams.resourceName) {
+      this.state = ResourceList.initialState()
+      this.load(nextProps.routeParams.resourceName)
+    }
+  }
+
+  async load(resourceName: string) {
     try {
-      const resp = await fetch(`http://swapi.co/api/${this.props.routeParams.resourceName}/?page=${this.state.nextPage}`)
+      const resp = await fetch(`http://swapi.co/api/${resourceName}/?page=${this.state.nextPage}`)
       if (!resp.ok) {
         throw resp.statusText
       }
@@ -65,13 +80,9 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
     }
   }
 
-  componentWillMount() {
-    this.load()
-  }
-
   loadMore() {
     this.setState({status: 'incrementing'})
-    this.load()
+    this.load(this.props.routeParams.resourceName)
   }
 
   openItem(url: string) {
@@ -88,7 +99,11 @@ export class ResourceList extends React.Component<RouteComponentProps<{}, Resour
   render() {
     return (
       <section>
-        <AppBar title={this.props.routeParams.resourceName} titleStyle={{textTransform: 'capitalize'}} />
+        <AppBar
+          title={this.props.routeParams.resourceName}
+          titleStyle={{textTransform: 'capitalize'}}
+          iconElementLeft={<MainNav />}
+        />
         <List>
           {this.state.items.map(person => <ResourceItem item={person} key={person.url} onClick={() => this.openItem(person.url)} />)}
         </List>
