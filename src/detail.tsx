@@ -101,16 +101,19 @@ function ResourceViewer(props: {resourceName: string, item: any}) {
 }
 
 export function isSwapiUrl(value): boolean {
-  return /^http:\/\/swapi\.co\/api\//.test(value)
+  return typeof value == 'string' && /^http:\/\/swapi\.co\/api\//.test(value)
 }
 
 export function isLinkedResourceProperty(key: string, value): boolean {
-  // Is the property referencing multiple linked resources? 
-  if (Array.isArray(value) && value.every(isSwapiUrl))
+  // Is the property referencing multiple linked resources?
+  if (Array.isArray(value) && value.every(isSwapiUrl)) {
     return true
+  }
   // Or is there just one?
- if (isSwapiUrl(value))
+  if (typeof value == 'string' && isSwapiUrl(value)) {
     return true
+  }
+  // Otherwise it's not.
   return false
 }
 

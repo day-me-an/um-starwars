@@ -26,6 +26,10 @@ describe('Smart Resource Viewer', function() {
     it(`can determine if a string *is* a SWAPI url`, function() {
       expect(isSwapiUrl('http://swapi.co/api/planets/1/')).to.be.true
     })
+
+    it(`can determine that an array *containing* a SWAPI url isn't a SWAPI url`, function() {
+      expect(isSwapiUrl(['http://swapi.co/api/planets/1/'])).to.be.false
+    })
   })
 
   describe('isLinkedResourceProperty', function() {
@@ -46,7 +50,7 @@ describe('Smart Resource Viewer', function() {
     })
 
     it(`an array of mixed data`, function() {
-      expect(isLinkedResourceProperty('junk', ['http://swapi.co/api/people/7/', 'http://google.com', 123, null])).to.be.true
+      expect(isLinkedResourceProperty('junk', ['http://swapi.co/api/people/7/', 'http://google.com', 123, null])).to.be.false
     })
   })
 })
