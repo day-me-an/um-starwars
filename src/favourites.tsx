@@ -18,9 +18,9 @@ export class FavouritesList extends React.Component<{}, {}> {
   render() {
     // TODO: consider refactoring this.
     const content = []
-    const sortedTypes = store.favourites.entries().sort( ([a, ], [b, ]) => a.localeCompare(b) )
+    const sortedTypes = store.favourites.entries().sort( ([typeA, ], [typeB, ]) => typeA.localeCompare(typeB) )
     for (const [type, items] of sortedTypes) {
-      const sortedItems = items.entries().sort( ([a, ], [b, ]) => a.localeCompare(b) )
+      const sortedItems = items.entries().sort( ([, itemA], [, itemB]) => itemA.title.localeCompare(itemB.title) )
       if (sortedItems.length > 0) {
         content.push(<Subheader key={type} style={{textTransform: 'capitalize'}}>{type}</Subheader>)
         for (const [id, item] of sortedItems) {
