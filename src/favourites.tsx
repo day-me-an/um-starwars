@@ -1,16 +1,13 @@
 import * as React from 'react'
-import {RouteComponentProps, hashHistory} from 'react-router'
 import {observer} from 'mobx-react'
 
-import RaisedButton from 'material-ui/RaisedButton'
 import {List, ListItem} from 'material-ui/List'
-import CircularProgress from 'material-ui/CircularProgress'
 import AppBar from 'material-ui/AppBar'
 import Subheader from 'material-ui/Subheader'
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 
-import {FavouritesStore, ResourceFavourites} from './store'
+import {FavouritesStore} from './store'
 import {MainNav} from './nav'
 
 // TODO: consider a way of injecting the store into components to make testing components cleaner.

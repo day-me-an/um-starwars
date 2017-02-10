@@ -8,9 +8,7 @@ import {MainNav} from './nav'
 import FlatButton from 'material-ui/FlatButton'
 import FontIcon from 'material-ui/FontIcon'
 import {List, ListItem} from 'material-ui/List'
-import CircularProgress from 'material-ui/CircularProgress'
 import AppBar from 'material-ui/AppBar'
-import Subheader from 'material-ui/Subheader'
 import Chip from 'material-ui/Chip'
 
 interface ResourceDetailRouteProps {

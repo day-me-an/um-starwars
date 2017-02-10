@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import * as fetchMock from 'fetch-mock'
 
 import {prettyName, isSwapiUrl, isLinkedResourceProperty} from './detail'
 
