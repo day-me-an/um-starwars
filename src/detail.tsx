@@ -208,11 +208,13 @@ class LinkedResourceChip extends React.Component<LinkedResourceProps, LinkedReso
         throw resp.statusText
       }
       const record = await resp.json()
-      if (this._mounted)
+      if (this._mounted) {
         this.setState({title: getResourceTitle(record)})
+      }
     } catch (reason) {
-      if (this._mounted)      
+      if (this._mounted) {
         this.setState({title: 'Unknown'})
+      }
     }
   }
 

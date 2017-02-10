@@ -6,10 +6,11 @@ import * as React from 'react'
  */
 export function getResourceTitle(record: any) {
   if (record) {
-    if (record.name)
+    if (record.name) {
       return record.name
-    else if (record.title)
+    } else if (record.title) {
       return record.title
+    }
   }
   return "Unknown"
 }
