@@ -27,18 +27,18 @@ describe('FavouritesStore', function() {
   })
 
   describe('isFavourited', function() {
-    it(`returns true when an item *is not* favourited`, function() {
+    it(`returns false when an item *is not* favourited`, function() {
       const store = new FavouritesStore()
       expect(store.isFavourited('people', '1')).to.be.false
     })
 
-    it(`returns false when an item *is* favourited`, function() {
+    it(`returns true when an item *is* favourited`, function() {
       const store = new FavouritesStore()
       store.toggle('people', '1', 'Luke')
       expect(store.isFavourited('people', '1')).to.be.true
     })
 
-    it(`returns false after an item is removed`, function() {
+    it(`returns false after an item is favourited then unfavourited`, function() {
       const store = new FavouritesStore()
       store.toggle('people', '1', 'Luke')
       store.toggle('people', '1', 'Luke')
